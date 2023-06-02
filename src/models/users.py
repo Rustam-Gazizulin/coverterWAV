@@ -1,11 +1,22 @@
-from utils.db import db
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import declarative_base, Session
+
+from utils.db import engine
+
+engine.connect()  # подключение к бд
+# функция, которая создает базовый класс для декларативных классов
+Base = declarative_base()
+session = Session(engine)
 
 
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
-    email = db.Column(db.String(100))
+class User(Base):
+    __tablename__ = "user"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
+    email = Column(String(50))
 
-    def __int__(self, username, email):
-        self.username = username
-        self.email = email
+
+# INSERT
+def addUser(id: int, name: str, email: str):
+    session.add(User(id=id, name=name, email=email))  # добавление новых данных
+    session.commit()

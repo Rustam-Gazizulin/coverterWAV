@@ -1,8 +1,11 @@
 from app import app
-from utils.db import db
+from models.users import Base
+from utils.db import engine
 
-with app.app_context():
-    db.create_all()
+# Base.metadata.drop_all(engine)  # удаление таблиц
+Base.metadata.create_all(engine)  # создание таблиц
+
 
 if __name__ == "__main__":
     app.run(debug=True)
+
