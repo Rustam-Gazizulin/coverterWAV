@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Главная страничка</title>
+{% endblock %}
+
+{% block body %}
+<br>
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+      <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">Список пользователей</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Посмотреть всех пользователей</li>
+            </ul>
+            <a href="/" type="button" class="w-100 btn btn-lg btn-outline-primary">Посмотреть</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">Список аудиозаписей</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Посмотреть аудиозаписи хранящиеся в базе данных</li>
+            </ul>
+            <a href="/" type="button" class="w-100 btn btn-lg btn-outline-primary">Посмотреть</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">Прочее</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Можно что-нибудь сюда добавить)</li>
+            </ul>
+            <a href="/" type="button" class="w-100 btn btn-lg btn-outline-primary">Посмотреть</a>
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}
+
