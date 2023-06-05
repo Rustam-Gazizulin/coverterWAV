@@ -1,21 +1,18 @@
 import uuid
 
-from flask_sqlalchemy.session import Session
 from sqlalchemy import Column, String, update
 from sqlalchemy.dialects.postgresql import UUID
 
 
-from utils.db import Base, engine
-
-session = Session(engine)
+from utils.db import Base, session
 
 
 class User(Base):
     __tablename__ = "users"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(100))
-    email = Column(String(50))
-
+    email = Column(String(50), unique=True)
+    password = Column(String(100))
 
 # INSERT
 def addUser(name: str, email: str):

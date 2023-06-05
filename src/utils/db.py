@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from decouple import config
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, Session
 
 user = config('POSTGRES_USER')
 password = config('POSTGRES_PASSWORD')
@@ -13,3 +13,4 @@ engine.connect()  # подключение к бд
 
 # функция, которая создает базовый класс для декларативных классов
 Base = declarative_base()
+session = Session(engine)
