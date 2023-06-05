@@ -1,22 +1,36 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import declarative_base, Session
+import uuid
 
-from utils.db import engine
+from flask_sqlalchemy.session import Session
+from sqlalchemy import Column, String, update
+from sqlalchemy.dialects.postgresql import UUID
 
-engine.connect()  # подключение к бд
-# функция, которая создает базовый класс для декларативных классов
-Base = declarative_base()
+
+from utils.db import Base, engine
+
 session = Session(engine)
 
 
 class User(Base):
-    __tablename__ = "user"
-    id = Column(Integer, primary_key=True)
+    __tablename__ = "users"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(100))
     email = Column(String(50))
 
 
 # INSERT
-def addUser(id: int, name: str, email: str):
-    session.add(User(id=id, name=name, email=email))  # добавление новых данных
+def addUser(name: str, email: str):
+    session.add(User(name=name, email=email))  # добавление новых данных
+    session.commit()
+
+
+# DELETE by id
+def deleteUser(id: int):
+    session.query(User).filter(User.id == id).delete()  # поиск и удаление ряда
+    session.commit()
+
+
+# UPDATE name by id
+def updateUser(id: int, new_name: str):
+    session.execute(update(User).where(User.id == id).values(
+            name=new_name))  # поиск и обновление значений
     session.commit()
