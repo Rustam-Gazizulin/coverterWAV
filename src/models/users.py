@@ -1,5 +1,6 @@
 import uuid
 
+from flask_login import UserMixin
 from sqlalchemy import Column, String, update
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -7,7 +8,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from utils.db import Base, session
 
 
-class User(Base):
+class User(UserMixin, Base):
     __tablename__ = "users"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(100))
