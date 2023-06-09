@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_file, redirect, url_for
 from flask_login import LoginManager, current_user
 from werkzeug.utils import secure_filename
 
@@ -74,8 +74,18 @@ def success():
             # если все прошло успешно, то перенаправляем
             # на функцию-представление `success_upload`
             # для скачивания файла
-            return render_template("success_upload.html", name=filename)
+
+            return redirect(url_for("download_file", name=output_filename, path=path_mp3))
     return render_template('profile.html', name=current_user.name)
+
+
+@app.route('/download/<name>')
+def download_file(name):
+    # Путь к файлу MP3
+    file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER_MP3'], name)
+
+    # Отправляем файл для скачивания
+    return send_file(file_path, as_attachment=True)
 
 
 Base.metadata.create_all(engine)  # создание таблиц
