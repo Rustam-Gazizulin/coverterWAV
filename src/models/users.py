@@ -15,6 +15,7 @@ class User(UserMixin, Base):
     email = Column(String(50), unique=True)
     password = Column(String(100))
 
+
 # INSERT
 def addUser(name: str, email: str):
     session.add(User(name=name, email=email))  # добавление новых данных

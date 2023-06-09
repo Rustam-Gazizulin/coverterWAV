@@ -4,4 +4,11 @@
 <h1 class="title">
   Добро пожаловать, {{ name  }}!
 </h1>
+<br>
+    <h1>Загрузить аудиофайл формата WAV</h1>
+
+    <form action="/success" method="post" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Конвертировать_в_MP3">
+    </form>
 {% endblock %}
