@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, flash, redirect, render_template, url_for
+from flask import Flask, request, render_template
 from flask_login import LoginManager, current_user
 from werkzeug.utils import secure_filename
 
@@ -8,6 +8,7 @@ from models.users import User
 from routs.auth import auth
 from routs.users import users
 from routs.start_page import start_page
+from utils.converter import convert_wav_to_mp3
 from utils.db import engine, Base, session
 
 
@@ -18,7 +19,12 @@ app = Flask(__name__)
 
 
 # папка для сохранения загруженных файлов
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = 'static/uploads/wav_files'
+app.config['UPLOAD_FOLDER_MP3'] = 'static/uploads/mp3_files'
+
+#  Пути для обработки сохраненных файлов
+input_file = '../static/uploads/wav_files/'
+output_file = '../static/uploads/mp3_files/'
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Ограничение на размер загружаемого файла
 
@@ -57,16 +63,19 @@ def success():
         if file and allowed_file(file.filename):
             # безопасно извлекаем оригинальное имя файла
             filename = secure_filename(file.filename)
+
+            output_filename = filename.rsplit('.', 1)[0].lower() + '.mp3'
+            path_mp3 = os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER_MP3'], output_filename)
             # сохраняем файл
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'], filename))
+
+            convert_wav_to_mp3(file, path_mp3)
+
             # если все прошло успешно, то перенаправляем
-            # на функцию-представление `download_file`
+            # на функцию-представление `success_upload`
             # для скачивания файла
             return render_template("success_upload.html", name=filename)
     return render_template('profile.html', name=current_user.name)
-
-
-
 
 
 Base.metadata.create_all(engine)  # создание таблиц
