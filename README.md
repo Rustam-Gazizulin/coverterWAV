@@ -1,6 +1,7 @@
 # converterWAV
 ___
 ## Description
+Приложение конвертирует файлы формата .wav в формат .mp3
  
 ## Start app in Docker container
 - Скопировать репозиторий на ПК
